@@ -1,15 +1,80 @@
-import React from 'react';
+/* eslint-disable prettier/prettier */
+import * as dataFromServer from './api/users';
+
+import React, { useEffect, useState } from 'react';
 import 'bulma/bulma.sass';
 import '@fortawesome/fontawesome-free/css/all.css';
-import './App.scss';
 
+import './App.scss';
 import classNames from 'classnames';
 import { PostsList } from './components/PostsList';
 import { PostDetails } from './components/PostDetails';
 import { UserSelector } from './components/UserSelector';
 import { Loader } from './components/Loader';
+import { User } from './types/User';
+import { Post } from './types/Post';
+import { Comment } from './types/Comment';
 
 export const App: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(null);
+  const [currentPost, setCurrentPost] = useState<Post | null | undefined>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [isCommentLoading, setCommentLoading] = useState(false);
+  const [isPostLoaded, setIsPostLoaded] = useState(false);
+  const [isPostLoadError, setIsPostLoadError] = useState(false);
+  // const [isCommentLoadError, setIsCommentLoadError] = useState(false);
+  const [isLoadedByAddComment, setIsLoadedByAddComment] = useState(false);
+
+  const getCommentsByCurrentPost = (post: Post) => {
+    // setIsCommentLoadError(false);
+    setCommentLoading(true);
+    dataFromServer
+      .getCommentsByPost(post?.id)
+      .then(setComments)
+      // .catch(()=>setIsCommentLoadError(true))
+      .finally(() => setCommentLoading(false));
+
+    // .catch(() => console.log('Cannnot'));
+  };
+
+  const getPostsByCurrentUser = (user: User | null | undefined) => {
+    setIsPostLoadError(false);
+    setIsPostLoaded(true);
+
+    dataFromServer
+      .getPostsByUser(user?.id)
+      .then(setPosts)
+      .catch(() => setIsPostLoadError(true))
+      .finally(() => setIsPostLoaded(false));
+  };
+
+  useEffect(() => {
+    dataFromServer.getUsers().then(setUsers);
+
+    // .catch(() => console.log('Cannnot'));
+  }, []);
+
+  function addComment(comment: Comment) {
+    setIsLoadedByAddComment(true);
+
+    dataFromServer
+      .addComment(comment)
+      .then(() => setComments([...comments, comment]))
+      .finally(() => setIsLoadedByAddComment(false));
+  }
+
+  function deleteComment(commentId: number) {
+    dataFromServer
+      .deleteComment(commentId)
+      .then(() =>
+        setComments(prevComments =>
+          prevComments.filter(c => c.id !== commentId),
+        ),
+      );
+  }
+
   return (
     <main className="section">
       <div className="container">
@@ -17,26 +82,51 @@ export const App: React.FC = () => {
           <div className="tile is-parent">
             <div className="tile is-child box is-success">
               <div className="block">
-                <UserSelector />
+                <UserSelector
+                  users={users}
+                  setCurrentUser={setCurrentUser}
+                  currentUser={currentUser}
+                  setCurrentPost={setCurrentPost}
+                  onSubmit={getPostsByCurrentUser}
+                  setPosts={setPosts}
+                  // setComments={setComments}
+                />
               </div>
 
               <div className="block" data-cy="MainContent">
-                <p data-cy="NoSelectedUser">No user selected</p>
+                {!currentUser && (
+                  <p data-cy="NoSelectedUser">No user selected</p>
+                )}
+                {isPostLoaded && <Loader />}
 
-                <Loader />
+                {isPostLoadError && (
+                  <div
+                    className="notification is-danger"
+                    data-cy="PostsLoadingError"
+                  >
+                    Something went wrong!
+                  </div>
+                )}
 
-                <div
-                  className="notification is-danger"
-                  data-cy="PostsLoadingError"
-                >
-                  Something went wrong!
-                </div>
+                {currentUser &&
+                  posts.length === 0 &&
+                  !isPostLoaded &&
+                  !isPostLoadError && (
+                  <div
+                    className="notification is-warning"
+                    data-cy="NoPostsYet"
+                  >No posts yet
+                  </div>
+                )}
 
-                <div className="notification is-warning" data-cy="NoPostsYet">
-                  No posts yet
-                </div>
-
-                <PostsList />
+                {currentUser && posts.length !== 0 && (
+                  <PostsList
+                    posts={posts}
+                    setCurrentPost={setCurrentPost}
+                    currentPost={currentPost}
+                    getCommentsByCurrentPost={getCommentsByCurrentPost}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -48,11 +138,20 @@ export const App: React.FC = () => {
               'is-parent',
               'is-8-desktop',
               'Sidebar',
-              'Sidebar--open',
+              { 'Sidebar--open': currentPost },
             )}
           >
             <div className="tile is-child box is-success ">
-              <PostDetails />
+              {currentPost && (
+                <PostDetails
+                  currentPost={currentPost}
+                  comments={comments}
+                  isLoading={isCommentLoading}
+                  onSubmit={addComment}
+                  deleteComment={deleteComment}
+                  isLoadedByAddComment={isLoadedByAddComment}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -60,3 +159,12 @@ export const App: React.FC = () => {
     </main>
   );
 };
+
+{
+  /* <div
+                  className="notification is-danger"
+                  data-cy="PostsLoadingError"
+                >
+                  Something went wrong!
+                </div> */
+}

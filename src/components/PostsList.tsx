@@ -1,6 +1,20 @@
 import React from 'react';
+import { Post } from '../types/Post';
+import { PostItem } from './PostItem';
 
-export const PostsList: React.FC = () => (
+type Props = {
+  posts: Post[];
+  setCurrentPost: (post: Post | null) => void;
+  currentPost?: Post | null;
+  getCommentsByCurrentPost: (post: Post) => void;
+};
+
+export const PostsList: React.FC<Props> = ({
+  posts,
+  setCurrentPost,
+  currentPost,
+  getCommentsByCurrentPost,
+}) => (
   <div data-cy="PostsList">
     <p className="title">Posts:</p>
 
@@ -15,7 +29,22 @@ export const PostsList: React.FC = () => (
       </thead>
 
       <tbody>
-        <tr data-cy="Post">
+        {posts.map(post => (
+          <PostItem
+            post={post}
+            key={post.id}
+            setCurrentPost={setCurrentPost}
+            currentPost={currentPost}
+            getCommentsByCurrentPost={getCommentsByCurrentPost}
+          />
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+/*
+ <tr data-cy="Post">
           <td data-cy="PostId">17</td>
 
           <td data-cy="PostTitle">
@@ -50,37 +79,4 @@ export const PostsList: React.FC = () => (
             </button>
           </td>
         </tr>
-
-        <tr data-cy="Post">
-          <td data-cy="PostId">19</td>
-          <td data-cy="PostTitle">adipisci placeat illum aut reiciendis qui</td>
-
-          <td className="has-text-right is-vcentered">
-            <button
-              type="button"
-              data-cy="PostButton"
-              className="button is-link is-light"
-            >
-              Open
-            </button>
-          </td>
-        </tr>
-
-        <tr data-cy="Post">
-          <td data-cy="PostId">20</td>
-          <td data-cy="PostTitle">doloribus ad provident suscipit at</td>
-
-          <td className="has-text-right is-vcentered">
-            <button
-              type="button"
-              data-cy="PostButton"
-              className="button is-link is-light"
-            >
-              Open
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-);
+*/
