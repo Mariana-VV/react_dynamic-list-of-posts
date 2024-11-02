@@ -24,19 +24,17 @@ export const App: React.FC = () => {
   const [isCommentLoading, setCommentLoading] = useState(false);
   const [isPostLoaded, setIsPostLoaded] = useState(false);
   const [isPostLoadError, setIsPostLoadError] = useState(false);
-  // const [isCommentLoadError, setIsCommentLoadError] = useState(false);
+  const [isCommentLoadError, setIsCommentLoadError] = useState(false);
   const [isLoadedByAddComment, setIsLoadedByAddComment] = useState(false);
 
   const getCommentsByCurrentPost = (post: Post) => {
-    // setIsCommentLoadError(false);
+    setIsCommentLoadError(false);
     setCommentLoading(true);
     dataFromServer
       .getCommentsByPost(post?.id)
       .then(setComments)
-      // .catch(()=>setIsCommentLoadError(true))
+      .catch(()=>setIsCommentLoadError(true))
       .finally(() => setCommentLoading(false));
-
-    // .catch(() => console.log('Cannnot'));
   };
 
   const getPostsByCurrentUser = (user: User | null | undefined) => {
@@ -52,8 +50,6 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     dataFromServer.getUsers().then(setUsers);
-
-    // .catch(() => console.log('Cannnot'));
   }, []);
 
   function addComment(comment: Comment) {
@@ -150,6 +146,7 @@ export const App: React.FC = () => {
                   onSubmit={addComment}
                   deleteComment={deleteComment}
                   isLoadedByAddComment={isLoadedByAddComment}
+                  isCommentLoadError={isCommentLoadError}
                 />
               )}
             </div>
@@ -159,12 +156,3 @@ export const App: React.FC = () => {
     </main>
   );
 };
-
-{
-  /* <div
-                  className="notification is-danger"
-                  data-cy="PostsLoadingError"
-                >
-                  Something went wrong!
-                </div> */
-}

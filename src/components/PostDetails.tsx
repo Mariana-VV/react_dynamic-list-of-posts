@@ -12,6 +12,7 @@ type Props = {
   onSubmit: (comment: Comment) => void;
   deleteComment: (commentId: number) => void;
   isLoadedByAddComment: boolean;
+  isCommentLoadError: boolean;
 };
 
 export const PostDetails: React.FC<Props> = ({
@@ -21,6 +22,7 @@ export const PostDetails: React.FC<Props> = ({
   onSubmit,
   deleteComment = () => {},
   isLoadedByAddComment,
+  isCommentLoadError,
 }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const handleWriteCommentClick = () => {
@@ -40,6 +42,12 @@ export const PostDetails: React.FC<Props> = ({
 
         <div className="block">
           {isLoading && <Loader />}
+
+          {isCommentLoadError && (
+            <div className="notification is-danger" data-cy="CommentsError">
+              Something went wrong
+            </div>
+          )}
 
           {comments.length === 0 && !isLoading && (
             <p className="title is-4" data-cy="NoCommentsMessage">
