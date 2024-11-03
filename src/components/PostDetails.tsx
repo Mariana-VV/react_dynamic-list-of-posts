@@ -22,7 +22,7 @@ export const PostDetails: React.FC<Props> = ({
   comments,
   isLoading,
   onSubmit,
-  deleteComment = () => {},
+  deleteComment,
   isLoadedByAddComment,
   isCommentLoadError,
   isFormOpen,
@@ -59,12 +59,12 @@ export const PostDetails: React.FC<Props> = ({
             </p>
           )}
 
-          {!isLoading && comments.length && (
+          {!isLoading && comments.length > 0 && (
             <p className="title is-4">Comments:</p>
           )}
 
           {!isLoading &&
-            comments.length &&
+            comments.length > 0 &&
             comments.map(
               comment =>
                 comment !== null && (
@@ -93,6 +93,7 @@ export const PostDetails: React.FC<Props> = ({
             onSubmit={onSubmit}
             currentPost={currentPost}
             isLoadedByAddComment={isLoadedByAddComment}
+            isCommentLoadError={isCommentLoadError}
           />
         )}
       </div>

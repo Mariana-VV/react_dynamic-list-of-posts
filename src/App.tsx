@@ -39,7 +39,7 @@ export const App: React.FC = () => {
       .finally(() => setCommentLoading(false));
   };
 
-  const getPostsByCurrentUser = (user: User | null | undefined) => {
+  const getPostsByCurrentUser = (user?: User | null | undefined) => {
     setIsPostLoadError(false);
     setIsPostLoaded(true);
 
@@ -152,6 +152,7 @@ export const App: React.FC = () => {
                   isCommentLoadError={isCommentLoadError}
                   setIsFormOpen={setIsOpenForm}
                   isFormOpen={isOpenForm}
+               
                 />
               )}
             </div>

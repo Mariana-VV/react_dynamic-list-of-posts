@@ -7,7 +7,7 @@ type Props = {
   setCurrentPost: (post: Post | null) => void;
   currentPost?: Post | null;
   getCommentsByCurrentPost: (post: Post) => void;
-  openForm?: (isOpen: boolean) => void;
+  openForm: (isOpen: boolean) => void;
 };
 
 export const PostsList: React.FC<Props> = ({

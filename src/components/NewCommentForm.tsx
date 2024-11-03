@@ -7,12 +7,14 @@ type Props = {
   onSubmit: (comment: Comment) => void;
   currentPost?: Post | null | undefined;
   isLoadedByAddComment: boolean;
+  isCommentLoadError: boolean;
 };
 
 export const NewCommentForm: React.FC<Props> = ({
   onSubmit,
   currentPost,
   isLoadedByAddComment,
+  isCommentLoadError,
 }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -85,7 +87,9 @@ export const NewCommentForm: React.FC<Props> = ({
       onSubmit(newComment);
     }
 
-    setMessage('');
+    if (!isCommentLoadError) {
+      setMessage('');
+    }
   };
 
   return (
@@ -140,7 +144,7 @@ export const NewCommentForm: React.FC<Props> = ({
         <div className="control has-icons-left has-icons-right">
           <input
             value={email}
-            type="text"
+            type="email"
             name="email"
             id="comment-author-email"
             placeholder="email@test.com"

@@ -2,11 +2,10 @@ import { Post } from '../types/Post';
 
 type Props = {
   post: Post;
-  key?: number;
   setCurrentPost: (post: Post | null) => void;
   currentPost?: Post | null;
   getCommentsByCurrentPost: (post: Post) => void;
-  openForm?: (isOpen: boolean) => void;
+  openForm: (isOpen: boolean) => void;
 };
 
 export const PostItem: React.FC<Props> = ({
@@ -14,7 +13,7 @@ export const PostItem: React.FC<Props> = ({
   setCurrentPost,
   currentPost,
   getCommentsByCurrentPost,
-  openForm = () => {},
+  openForm,
 }) => {
   const handleOpenPostClick = () => {
     setCurrentPost(null);
