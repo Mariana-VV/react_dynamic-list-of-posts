@@ -7,6 +7,7 @@ type Props = {
   setCurrentPost: (post: Post | null) => void;
   currentPost?: Post | null;
   getCommentsByCurrentPost: (post: Post) => void;
+  openForm?: (isOpen: boolean) => void;
 };
 
 export const PostsList: React.FC<Props> = ({
@@ -14,6 +15,7 @@ export const PostsList: React.FC<Props> = ({
   setCurrentPost,
   currentPost,
   getCommentsByCurrentPost,
+  openForm,
 }) => (
   <div data-cy="PostsList">
     <p className="title">Posts:</p>
@@ -36,47 +38,10 @@ export const PostsList: React.FC<Props> = ({
             setCurrentPost={setCurrentPost}
             currentPost={currentPost}
             getCommentsByCurrentPost={getCommentsByCurrentPost}
+            openForm={openForm}
           />
         ))}
       </tbody>
     </table>
   </div>
 );
-
-/*
- <tr data-cy="Post">
-          <td data-cy="PostId">17</td>
-
-          <td data-cy="PostTitle">
-            fugit voluptas sed molestias voluptatem provident
-          </td>
-
-          <td className="has-text-right is-vcentered">
-            <button
-              type="button"
-              data-cy="PostButton"
-              className="button is-link is-light"
-            >
-              Open
-            </button>
-          </td>
-        </tr>
-
-        <tr data-cy="Post">
-          <td data-cy="PostId">18</td>
-
-          <td data-cy="PostTitle">
-            voluptate et itaque vero tempora molestiae
-          </td>
-
-          <td className="has-text-right is-vcentered">
-            <button
-              type="button"
-              data-cy="PostButton"
-              className="button is-link"
-            >
-              Close
-            </button>
-          </td>
-        </tr>
-*/

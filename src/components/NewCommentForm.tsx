@@ -45,8 +45,17 @@ export const NewCommentForm: React.FC<Props> = ({
   const onClearClick = () => {
     setName('');
     setEmail('');
+    setMessage('');
     if (messageError) {
       setMessageError(false);
+    }
+
+    if (emailError) {
+      setEmailError(false);
+    }
+
+    if (nameError) {
+      setNameError(false);
     }
   };
 
@@ -101,22 +110,26 @@ export const NewCommentForm: React.FC<Props> = ({
             <i className="fas fa-user" />
           </span>
 
-          <span
-            className={classNames('icon is-small is-right', {
-              'has-text-danger': nameError,
-            })}
-            data-cy="ErrorIcon"
-          >
-            <i className="fas fa-exclamation-triangle" />
-          </span>
+          {nameError && (
+            <span
+              className={classNames('icon is-small is-right', {
+                'has-text-danger': nameError,
+              })}
+              data-cy="ErrorIcon"
+            >
+              <i className="fas fa-exclamation-triangle" />
+            </span>
+          )}
         </div>
 
-        <p
-          className={classNames('help', { 'is-danger': nameError })}
-          data-cy="ErrorMessage"
-        >
-          Name is required
-        </p>
+        {nameError && (
+          <p
+            className={classNames('help', { 'is-danger': nameError })}
+            data-cy="ErrorMessage"
+          >
+            Name is required
+          </p>
+        )}
       </div>
 
       <div className="field" data-cy="EmailField">
@@ -139,22 +152,26 @@ export const NewCommentForm: React.FC<Props> = ({
             <i className="fas fa-envelope" />
           </span>
 
-          <span
-            className={classNames('icon is-small is-right', {
-              'has-text-danger': emailError,
-            })}
-            data-cy="ErrorIcon"
-          >
-            <i className="fas fa-exclamation-triangle" />
-          </span>
+          {emailError && (
+            <span
+              className={classNames('icon is-small is-right', {
+                'has-text-danger': emailError,
+              })}
+              data-cy="ErrorIcon"
+            >
+              <i className="fas fa-exclamation-triangle" />
+            </span>
+          )}
         </div>
 
-        <p
-          className={classNames('help', { 'is-danger': emailError })}
-          data-cy="ErrorMessage"
-        >
-          Email is required
-        </p>
+        {emailError && (
+          <p
+            className={classNames('help', { 'is-danger': emailError })}
+            data-cy="ErrorMessage"
+          >
+            Email is required
+          </p>
+        )}
       </div>
 
       <div className="field" data-cy="BodyField">
@@ -173,13 +190,15 @@ export const NewCommentForm: React.FC<Props> = ({
           />
         </div>
 
-        <p
-          className={classNames('help', { 'is-danger': messageError })}
-          data-cy="ErrorMessage"
-        >
-          {/* help is-danger */}
-          Enter some text
-        </p>
+        {messageError && (
+          <p
+            className={classNames('help', { 'is-danger': messageError })}
+            data-cy="ErrorMessage"
+          >
+            {/* help is-danger */}
+            Enter some text
+          </p>
+        )}
       </div>
 
       <div className="field is-grouped">

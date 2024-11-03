@@ -26,6 +26,8 @@ export const App: React.FC = () => {
   const [isPostLoadError, setIsPostLoadError] = useState(false);
   const [isCommentLoadError, setIsCommentLoadError] = useState(false);
   const [isLoadedByAddComment, setIsLoadedByAddComment] = useState(false);
+  const [isOpenForm, setIsOpenForm] = useState(false);
+
 
   const getCommentsByCurrentPost = (post: Post) => {
     setIsCommentLoadError(false);
@@ -85,7 +87,7 @@ export const App: React.FC = () => {
                   setCurrentPost={setCurrentPost}
                   onSubmit={getPostsByCurrentUser}
                   setPosts={setPosts}
-                  // setComments={setComments}
+
                 />
               </div>
 
@@ -121,6 +123,7 @@ export const App: React.FC = () => {
                     setCurrentPost={setCurrentPost}
                     currentPost={currentPost}
                     getCommentsByCurrentPost={getCommentsByCurrentPost}
+                    openForm={setIsOpenForm}
                   />
                 )}
               </div>
@@ -147,6 +150,8 @@ export const App: React.FC = () => {
                   deleteComment={deleteComment}
                   isLoadedByAddComment={isLoadedByAddComment}
                   isCommentLoadError={isCommentLoadError}
+                  setIsFormOpen={setIsOpenForm}
+                  isFormOpen={isOpenForm}
                 />
               )}
             </div>

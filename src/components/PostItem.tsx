@@ -6,6 +6,7 @@ type Props = {
   setCurrentPost: (post: Post | null) => void;
   currentPost?: Post | null;
   getCommentsByCurrentPost: (post: Post) => void;
+  openForm?: (isOpen: boolean) => void;
 };
 
 export const PostItem: React.FC<Props> = ({
@@ -13,8 +14,12 @@ export const PostItem: React.FC<Props> = ({
   setCurrentPost,
   currentPost,
   getCommentsByCurrentPost,
+  openForm = () => {},
 }) => {
   const handleOpenPostClick = () => {
+    setCurrentPost(null);
+    openForm(false);
+
     getCommentsByCurrentPost(post);
 
     setCurrentPost(post);

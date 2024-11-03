@@ -19,7 +19,6 @@ export const UserSelector: React.FC<Props> = ({
   setCurrentUser,
   currentUser,
   setPosts,
-  // setComments,
   setCurrentPost,
   onSubmit,
 }) => {
@@ -30,7 +29,6 @@ export const UserSelector: React.FC<Props> = ({
   }
 
   function handleUserClick(user: User) {
-    // setComments([]);
     setCurrentPost(null);
     setPosts([]);
     setCurrentUser(user);
@@ -52,7 +50,7 @@ export const UserSelector: React.FC<Props> = ({
           aria-haspopup="true"
           aria-controls="dropdown-menu"
           onClick={handleDropdownClick}
-          onBlur={() => setTimeout(() => setIsMenuShown(false), 1000)}
+          onBlur={() => setIsMenuShown(false)}
         >
           <span>{currentUser ? currentUser?.name : 'Choose a user'}</span>
           <span className="icon is-small">
@@ -70,7 +68,7 @@ export const UserSelector: React.FC<Props> = ({
               className={classNames('dropdown-item', {
                 'is-active': currentUser === user,
               })}
-              onClick={() => {
+              onMouseDown={() => {
                 handleUserClick(user);
               }}
             >

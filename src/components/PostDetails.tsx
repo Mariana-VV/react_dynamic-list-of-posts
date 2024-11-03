@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Loader } from './Loader';
 import { NewCommentForm } from './NewCommentForm';
 import { Post } from '../types/Post';
@@ -13,6 +13,8 @@ type Props = {
   deleteComment: (commentId: number) => void;
   isLoadedByAddComment: boolean;
   isCommentLoadError: boolean;
+  isFormOpen: boolean;
+  setIsFormOpen: (isOpen: boolean) => void;
 };
 
 export const PostDetails: React.FC<Props> = ({
@@ -23,8 +25,10 @@ export const PostDetails: React.FC<Props> = ({
   deleteComment = () => {},
   isLoadedByAddComment,
   isCommentLoadError,
+  isFormOpen,
+  setIsFormOpen,
 }) => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  // const [isFormOpen, setIsFormOpen] = useState(false);
   const handleWriteCommentClick = () => {
     setIsFormOpen(true);
   };
@@ -49,7 +53,7 @@ export const PostDetails: React.FC<Props> = ({
             </div>
           )}
 
-          {comments.length === 0 && !isLoading && (
+          {comments.length === 0 && !isLoading && !isCommentLoadError && (
             <p className="title is-4" data-cy="NoCommentsMessage">
               No comments yet
             </p>
@@ -72,7 +76,7 @@ export const PostDetails: React.FC<Props> = ({
                 ),
             )}
 
-          {!isLoading && !isFormOpen && (
+          {!isLoading && !isFormOpen && !isCommentLoadError && (
             <button
               data-cy="WriteCommentButton"
               type="button"
