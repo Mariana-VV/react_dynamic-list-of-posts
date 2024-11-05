@@ -1,13 +1,19 @@
 import { Comment } from '../types/Comment';
 
 type Props = {
+  comments: Comment[];
   comment: Comment;
   deleteComment: (commentId: number) => void;
 };
 
-export const CommentItem: React.FC<Props> = ({ comment, deleteComment }) => {
+export const CommentItem: React.FC<Props> = ({
+  comments,
+  comment,
+  deleteComment,
+}) => {
   const { name, email, body, id } = comment;
   const handleCommentDeleteClick = () => {
+    comments.filter(prevComment => prevComment.id != comment.id);
     deleteComment(id);
   };
 

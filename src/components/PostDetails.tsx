@@ -69,6 +69,7 @@ export const PostDetails: React.FC<Props> = ({
               comment =>
                 comment !== null && (
                   <CommentItem
+                    comments={comments}
                     comment={comment}
                     key={comment.id}
                     deleteComment={deleteComment}
