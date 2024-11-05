@@ -63,19 +63,19 @@ export const NewCommentForm: React.FC<Props> = ({
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (!name) {
+    if (!name.trim()) {
       setNameError(true);
     }
 
-    if (!email) {
+    if (!email.trim()) {
       setEmailError(true);
     }
 
-    if (!message) {
+    if (!message.trim()) {
       setMessageError(true);
     }
 
-    if (name && email && message) {
+    if (name.trim() && email.trim() && message.trim()) {
       const newComment: Comment = {
         id: 0,
         postId: currentPost?.id || 0,

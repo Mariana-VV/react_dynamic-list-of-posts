@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { User } from '../types/User';
 import classNames from 'classnames';
 import { Post } from '../types/Post';
-// import { Comment } from '../types/Comment';
 
 type Props = {
   users: User[];
@@ -10,7 +9,6 @@ type Props = {
   currentUser?: User | null;
   setCurrentPost: (post: Post | null) => void;
   setPosts: (posts: Post[]) => void;
-  // setComments: (comments: Comment[]) => void;
   onSubmit: (user: User | null | undefined) => void;
 };
 
