@@ -6,15 +6,16 @@ type Props = {
 };
 
 export const CommentItem: React.FC<Props> = ({ comment, deleteComment }) => {
+  const { name, email, body, id } = comment;
   const handleCommentDeleteClick = () => {
-    deleteComment(comment.id);
+    deleteComment(id);
   };
 
   return (
     <article className="message is-small" data-cy="Comment">
       <div className="message-header">
-        <a href={`mailto:${comment?.email}`} data-cy="CommentAuthor">
-          {comment?.name}
+        <a href={`mailto:${email}`} data-cy="CommentAuthor">
+          {name}
         </a>
         <button
           data-cy="CommentDelete"
@@ -26,7 +27,7 @@ export const CommentItem: React.FC<Props> = ({ comment, deleteComment }) => {
       </div>
 
       <div className="message-body" data-cy="CommentBody">
-        {comment?.body}
+        {body}
       </div>
     </article>
   );

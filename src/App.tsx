@@ -54,16 +54,16 @@ export const App: React.FC = () => {
     dataFromServer.getUsers().then(setUsers);
   }, []);
 
-  function addComment(comment: Comment) {
+  const addComment = (comment: Comment) => {
     setIsLoadedByAddComment(true);
 
     dataFromServer
       .addComment(comment)
       .then(() => setComments([...comments, comment]))
       .finally(() => setIsLoadedByAddComment(false));
-  }
+  };
 
-  function deleteComment(commentId: number) {
+  const deleteComment = (commentId: number) => {
     dataFromServer
       .deleteComment(commentId)
       .then(() =>
@@ -71,7 +71,7 @@ export const App: React.FC = () => {
           prevComments.filter(c => c.id !== commentId),
         ),
       );
-  }
+  };
 
   return (
     <main className="section">
@@ -152,7 +152,7 @@ export const App: React.FC = () => {
                   isCommentLoadError={isCommentLoadError}
                   setIsFormOpen={setIsOpenForm}
                   isFormOpen={isOpenForm}
-               
+
                 />
               )}
             </div>
